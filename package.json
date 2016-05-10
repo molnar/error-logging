@@ -1,0 +1,24 @@
+{
+  "name": "js-error-logging",
+  "version": "0.0.1",
+  "description": "Capture javascript error events",
+  "main": "server/server.js",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "null"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/molnar/error-logging.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/molnar/error-logging/issues"
+  },
+  "homepage": "https://github.com/molnar/error-logging#readme"
+}
