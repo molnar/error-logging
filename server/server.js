@@ -1,6 +1,9 @@
 // grab the packages we need
 var express = require('express');
 var bodyParser = require('body-parser');
+var jsonfile = require('jsonfile')
+var file = 'data.json'
+var errors = [];
 
 
 var app = express();
@@ -15,7 +18,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-// routes will go here
+
 
 // start the server
 app.listen(port);
@@ -30,11 +33,19 @@ app.get('/app/errors', function(req, res) {
 
 app.post('/app/errors', function(req, res) {
    
-    var errorObj = req.body;
-    //now do something with it
-    console.log(errorObj)
+    var errorObj = req.body; 
 
-   
+    jsonfile.readFile(file, function(err, obj) {
+      errors = obj;  
+      errors.errors.push(errorObj);
+      
+      jsonfile.writeFile(file, errors, function (err) {
+        console.error(err)
+      })   
+    
+    })
 
     res.send("Successfully submitted error");
 });
+
+
