@@ -2,6 +2,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var jsonfile = require('jsonfile')
+var db = require('./db.js');
 var file = 'data.json'
 var errors = [];
 
@@ -27,24 +28,38 @@ console.log('Server started! At http://localhost:' + port);
 
 
 app.get('/app/errors', function(req, res) {
-  res.send('Nothing to see here');
+  //res.send('Nothing to see here');
+
+
+  db.initialize(function(err,data){
+    if(!err){
+      data.find({ url: 'http://localhost/error-logging/trunk/' }, function (err, docs) {       
+        res.send(docs);        
+      });
+    }else{
+      console.log("error")
+    }
+  })
 });
 
 
-app.post('/app/errors', function(req, res) {
-   
-    var errorObj = req.body; 
+app.post('/app/errors', function(req, res) {   
+    var errorObj = req.body;
 
-    jsonfile.readFile(file, function(err, obj) {
-      errors = obj;  
-      errors.errors.push(errorObj);
-      
-      jsonfile.writeFile(file, errors, function (err) {
-        console.error(err)
-      })   
-    
+    db.initialize(function(err,data){
+      if(!err){        
+        data.insert(errorObj, function (err, newDoc) {
+          console.log(newDoc)
+        })
+        data.find({ url: 'http://localhost/error-logging/trunk/' }, function (err, docs) {
+          console.log(docs)
+          // docs is an array containing documents Mars, Earth, Jupiter
+          // If no document is found, docs is equal to []
+        });
+      }else{
+        console.log("error")
+      }
     })
-
     res.send("Successfully submitted error");
 });
 

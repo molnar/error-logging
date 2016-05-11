@@ -1,34 +1,44 @@
 hi
 <button onclick="dothis()">hello</button>
 
+<button onclick="getstuff()">get</button>
+
 <script type="text/javascript">
 
-function dothis(){	
-	if(blah != "Adsf")blah = blah;
-}
+	function dothis(){	
+		if(blah != "Adsf")blah = blah;
+	}
 
-window.onerror = function (errorMsg, url, lineNumber, columnNumber, error) {
-	var errorObj = {};
-	errorObj.errorMsg = errorMsg; 
-	errorObj.url = url;
-	errorObj.lineNumber = lineNumber;
-	errorObj.columnNumber = columnNumber;
-	errorObj.error = error;
+	function getstuff(){
+		    var xhr = new XMLHttpRequest();
+			xhr.open("GET", "http://localhost:4017/app/errors", true);
+			xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+			xhr.send();
 
-    var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+			    if (xhr.readyState == XMLHttpRequest.DONE) {
+			        console.log(xhr.responseText);
+			    }
+			}
+	}
 
+	//universal listner to errors
+	window.onerror = function (errorMsg, url, lineNumber, columnNumber, error) {
+		var errorObj = {};
+		errorObj.errorMsg = errorMsg; 
+		errorObj.url = url;
+		errorObj.lineNumber = lineNumber;
+		errorObj.columnNumber = columnNumber;
+		errorObj.error = error;
 
-	xhr.open("POST", "http://localhost:4017/app/errors", true);
-	xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-	xhr.send(JSON.stringify(errorObj));
-
-	console.log(errorObj)
-
-    
-    return false;
-}
-
-if(fish.blah === 0)console.log("zerro");
-
+		//send the error object to a data service
+	    var xhr = new XMLHttpRequest();
+		xhr.open("POST", "http://localhost:4017/app/errors", true);
+		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+		xhr.send(JSON.stringify(errorObj));
+	    
+	    //
+	    return false;
+	}
 
 </script>
