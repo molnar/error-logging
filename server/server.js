@@ -49,13 +49,13 @@ app.post('/app/errors', function(req, res) {
     db.initialize(function(err,data){
       if(!err){        
         data.insert(errorObj, function (err, newDoc) {
-          console.log(newDoc)
+          console.log(newDoc._id)
         })
-        data.find({ url: 'http://localhost/error-logging/trunk/' }, function (err, docs) {
+        /*data.find({ url: 'http://localhost/error-logging/trunk/' }, function (err, docs) {
           console.log(docs)
           // docs is an array containing documents Mars, Earth, Jupiter
           // If no document is found, docs is equal to []
-        });
+        });*/
       }else{
         console.log("error")
       }
