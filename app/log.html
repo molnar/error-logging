@@ -2,15 +2,40 @@
 <html ng-app="errorApp">
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+    <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+    	body{
+    		font-family: 'VT323';
+    		font-size: 1.2em;
+    	} 
+    	h4{
+    		font-size: 1.0em;
+    	}
+    	ul{
+    		list-style-type: none;
+    	} 
+    	.container{
+    		margin-top: 42px;
+    	}
+
+    </style>
   </head>
   <body ng-controller="appController">
     <div class="container">
+    	<select ng-model="currentUrl" ng-options="url as url for url in pages">
+    		<option value="">Filter by URL</option>
+    	</select>
+
     	
     	<ul>
     		<li ng-repeat="item in items | orderBy: '-dateRecorded'">
-    			<h4>{{item.errorMsg}} - {{item.dateRecorded | date :'M/d/yy h:mm:ss a'}}</h4>
-    			<p>{{item.error}}</p>
+    			<h4>{{item.errorMsg}}  -  {{item.dateRecorded | date :'M/d/yy h:mm:ss a'}}</h4>
+    			<p>{{item.error}} <span class="glyphicon glyphicon-play" aria-hidden="true"></span></p>
+
+<!--     			want to implement
+    			http://www.prepbootstrap.com/bootstrap-template/collapsepanels -->
 
     		</li>
     	</ul>     
@@ -19,11 +44,20 @@
     	angular.module('errorApp', [])
     		.controller('appController', function($scope,$http) {    			
     			$scope.items = [];
+    			$scope.pages = [];
+    			$scope.options = ['http://localhost/error-logging/trunk/'];
 
     			$http.get("http://localhost:4017/app/errors")
     			   .then(function(response) {    			       
     			       $scope.items = response.data;
+    			       getURLS();
     			   });
+
+    			function getURLS() {
+    				$scope.items.forEach(function(item){    					
+    					if(!_.contains($scope.pages, item.url))$scope.pages.push(item.url)
+    				})
+    			}   
 
 
 
