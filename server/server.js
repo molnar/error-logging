@@ -1,7 +1,6 @@
 // grab the packages we need
 var express = require('express');
 var bodyParser = require('body-parser');
-var jsonfile = require('jsonfile')
 var db = require('./db.js');
 var file = 'data.json'
 var errors = [];
@@ -64,3 +63,4 @@ app.post('/app/errors', function(req, res) {
 });
 
 
+//https://codeforgeek.com/2015/09/real-time-notification-system-using-socket-io/

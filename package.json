@@ -5,10 +5,10 @@
   "main": "server/server.js",
   "dependencies": {
     "body-parser": "^1.15.1",
-    "express": "^4.13.4",
-    "jsonfile": "^2.3.0",
+    "express": "^4.13.4",    
     "nedb": "^1.8.0",
-    "nedb-logger": "^0.1.0"
+    "nedb-logger": "^0.1.0",
+    "socket.io": "^1.4.6"
   },
   "devDependencies": {},
   "scripts": {

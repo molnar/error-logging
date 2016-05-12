@@ -1,0 +1,94 @@
+<!doctype html>
+<html ng-app="errorApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+  </head>
+  <body ng-controller="appController">
+    <div class="container">
+    	
+    	<ul>
+    		<li ng-repeat="item in items">
+    			<h4>{{item.errorMsg}}</h4>
+    			<p>{{item.error}}</p>
+
+    		</li>
+    	</ul>     
+    </div>
+    <script type="text/javascript">
+    	angular.module('errorApp', [])
+    		.controller('appController', function($scope,$http) {    			
+    			$scope.items = [];
+
+    			$http.get("http://ads.coast.noaa.gov/app/errors")
+    			   .then(function(response) {    			       
+    			       $scope.items = response.data;
+    			   });
+
+
+
+
+    		});
+
+
+
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>
+<html>
+	<body>
+		<ul id="list">
+		</ul>
+	</body>
+	<script type="text/javascript">
+
+			var service = "http://localhost:4017/app/errors";
+			var errorjson = [];
+
+			var ul = document.getElementById("list");
+
+			function init() {
+			    var xhr = new XMLHttpRequest();
+				xhr.open("GET", service, true);
+				xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+				xhr.send();
+				xhr.onreadystatechange = function() {
+				    if (xhr.readyState == XMLHttpRequest.DONE) {					       
+				        parseData(xhr)
+				    }
+				}			        
+			}
+
+			function parseData(data) {				
+				errorjson = JSON.parse(data.response);
+
+				errorjson.forEach(function(item){					
+					var li =  document.createElement("li");
+					li.appendChild(document.createTextNode(item.errorMsg));
+					li.setAttribute("id", item._id);					
+					ul.appendChild(li);
+				})
+
+			}
+
+			window.onload = init;
+
+	</script>
+</html> -->
+
+
+
+
+
+
+

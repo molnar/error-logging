@@ -1,27 +1,15 @@
 hi
 <button onclick="dothis()">hello</button>
 
-<button onclick="getstuff()">get</button>
+
 
 <script type="text/javascript">
+	var service = "http://localhost:4017/app/errors";
 
 	function dothis(){	
 		if(blah != "Adsf")blah = blah;
 	}
-
-	function getstuff(){
-		    var xhr = new XMLHttpRequest();
-			xhr.open("GET", "http://localhost:4017/app/errors", true);
-			xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-			xhr.send();
-
-			xhr.onreadystatechange = function() {
-			    if (xhr.readyState == XMLHttpRequest.DONE) {
-			        console.log(xhr.responseText);
-			    }
-			}
-	}
-
+	
 	//universal listner to errors
 	window.onerror = function (errorMsg, url, lineNumber, columnNumber, error) {
 		var errorObj = {};
@@ -29,16 +17,33 @@ hi
 		errorObj.url = url;
 		errorObj.lineNumber = lineNumber;
 		errorObj.columnNumber = columnNumber;
-		errorObj.error = error;
+		errorObj.error = JSON.stringify(error);
+
+		
 
 		//send the error object to a data service
 	    var xhr = new XMLHttpRequest();
-		xhr.open("POST", "http://localhost:4017/app/errors", true);
+		xhr.open("POST", service, true);
 		xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 		xhr.send(JSON.stringify(errorObj));
 	    
 	    //
 	    return false;
 	}
+
+	if (!('toJSON' in Error.prototype))
+	Object.defineProperty(Error.prototype, 'toJSON', {
+	    value: function () {
+	        var alt = {};
+
+	        Object.getOwnPropertyNames(this).forEach(function (key) {
+	            alt[key] = this[key];
+	        }, this);
+
+	        return alt;
+	    },
+	    configurable: true,
+	    writable: true
+	});
 
 </script>
