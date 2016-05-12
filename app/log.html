@@ -8,8 +8,8 @@
     <div class="container">
     	
     	<ul>
-    		<li ng-repeat="item in items">
-    			<h4>{{item.errorMsg}}</h4>
+    		<li ng-repeat="item in items | orderBy: '-dateRecorded'">
+    			<h4>{{item.errorMsg}} - {{item.dateRecorded | date :'M/d/yy h:mm:ss a'}}</h4>
     			<p>{{item.error}}</p>
 
     		</li>
@@ -20,7 +20,7 @@
     		.controller('appController', function($scope,$http) {    			
     			$scope.items = [];
 
-    			$http.get("http://ads.coast.noaa.gov/app/errors")
+    			$http.get("http://localhost:4017/app/errors")
     			   .then(function(response) {    			       
     			       $scope.items = response.data;
     			   });

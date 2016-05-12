@@ -32,7 +32,7 @@ app.get('/app/errors', function(req, res) {
 
   db.initialize(function(err,data){
     if(!err){
-      data.find({ url: 'http://localhost/error-logging/trunk/' }, function (err, docs) {       
+      data.find(null, function (err, docs) {       
         res.send(docs);        
       });
     }else{
@@ -46,7 +46,8 @@ app.post('/app/errors', function(req, res) {
     var errorObj = req.body;
 
     db.initialize(function(err,data){
-      if(!err){        
+      if(!err){          
+        errorObj.dateRecorded = new Date(); 
         data.insert(errorObj, function (err, newDoc) {
           console.log(newDoc._id)
         })
