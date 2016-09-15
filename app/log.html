@@ -47,7 +47,7 @@
     			$scope.pages = [];
     			$scope.options = ['http://localhost/error-logging/trunk/'];
 
-    			$http.get("http://localhost:4017/app/errors")
+    			$http.get("http://ads.coast.noaa.gov/app/errors")
     			   .then(function(response) {    			       
     			       $scope.items = response.data;
     			       getURLS();
